@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Feed the Future - Vibrant Landing Page</title>
+<style>
+  /* Reset */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff;
+    color: #333;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    background: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  nav.scrolled {
+    background-color: #f9a825; /* warm orange background on scroll */
+    box-shadow: 0 4px 12px rgba(249, 168, 37, 0.5);
+  }
+  nav .logo {
+    color: #e91e63; /* pink base color */
+    font-weight: 700;
+    font-size: 1.4rem;
+    user-select: none;
+    transition: color 0.3s ease;
+  }
+  nav.scrolled .logo {
+    color: #fff; /* white on scroll */
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+  }
+  nav ul li a {
+    color: #e91e63; /* pink nav link color */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    position: relative;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease;
+  }
+  nav.scrolled ul li a {
+    color: #fff;
+  }
+  nav ul li a:hover,
+  nav ul li a.active {
+    color: #fbc02d;
+  }
+  nav ul li a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #fbc02d;
+    transition: width 0.3s ease;
+  }
+  nav ul li a:hover::after,
+  nav ul li a.active::after {
+    width: 100%;
+  }
+
+  /* Sections full width + height */
+  header, section {
+    width: 100%;
+    min-height: 100vh;
+    padding: 3rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .container {
+    max-width: 960px;
+    width: 100%;
+  }
+
+  /* Title backgrounds */
+  header h1,
+  section h2 {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Different background colors for each title */
+  header h1 {
+    background-color: rgba(216, 27, 96, 0.8); /* translucent pink for Home */
+  }
+
+  #about h2 {
+    background-color: #4caf50; /* green for About */
+  }
+
+  #services h2 {
+    background-color: #2196f3; /* blue for Services */
+  }
+
+  #contact h2 {
+    background-color: #ff7043; /* coral/orange for Contact */
+  }
+
+  /* Home - Full Background Image */
+  header {
+    background: url('https://i.pinimg.com/736x/4d/b6/15/4db615547f8be5ccb0db6da972fda725.jpg') no-repeat center center/cover;
+    color: white;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+  header p {
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.6);
+    max-width: 600px;
+  }
+  .cta-button {
+    background: #fff;
+    color: #b30059;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(179, 0, 89, 0.4);
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .cta-button:hover {
+    background: #ff99c8;
+    color: #fff;
+    box-shadow: 0 7px 20px rgba(255, 153, 200, 0.7);
+  }
+
+  /* About */
+  #about {
+    background-color: #d0f0c0;
+    color: #264d00;
+    justify-content: center;
+  }
+  #about p {
+    font-size: 1.3rem;
+    line-height: 1.7;
+    font-weight: 600;
+    max-width: 700px;
+  }
+
+  /* Services */
+  #services {
+    background-color: #cde7f0;
+    color: #1a3d6e;
+  }
+  #services p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    max-width: 700px;
+  }
+  .services-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.8rem;
+    justify-content: center;
+  }
+  .service-box {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    padding: 2rem;
+    width: 280px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+  }
+  .service-box:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.15);
+  }
+  .service-box h3 {
+    color: #1e90ff;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+  .service-box p {
+    margin-bottom: 1rem;
+    color: #444;
+    font-weight: 500;
+  }
+  .frequency {
+    font-weight: 700;
+    color: #1a3d6e;
+  }
+
+  /* Contact */
+  #contact {
+    background-color: #fff9f0;
+    color: #5a3e1b;
+    justify-content: center;
+  }
+  #contact p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    max-width: 600px;
+  }
+  #contact a {
+    color: #d46a00;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  #contact a:hover {
+    color: #ff6fa3;
+    text-decoration: underline;
+  }
+
+  /* Footer */
+  footer {
+    background: #f57c00;
+    color: white;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    font-weight: 600;
+    border-radius: 0 0 10px 10px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .services-container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .service-box {
+      width: 90%;
+    }
+    #about, #contact {
+      padding: 2rem 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="logo">Feed the Future</div>
+  <ul>
+    <li><a href="#home" class="nav-link active">Home</a></li>
+    <li><a href="#about" class="nav-link">About</a></li>
+    <li><a href="#services" class="nav-link">Services</a></li>
+    <li><a href="#contact" class="nav-link">Contact</a></li>
+  </ul>
+</nav>
+
+<header id="home">
+  <div class="container">
+    <h1>Feed the Future</h1>
+    <p>Providing nutritious meals to orphaned children in need</p>
+    <button class="cta-button" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Donate Now</button>
+  </div>
+</header>
+
+<section id="about">
+  <div class="container">
+    <h2>About Us</h2>
+    <p>
+      Feed the Future is a non-profit initiative dedicated to ending child hunger among orphans. 
+      Our mission is to provide regular, healthy meals and create sustainable support for orphanages across the country.
+    </p>
+  </div>
+</section>
+
+<section id="services">
+  <div class="container">
+    <h2>Our Services</h2>
+    <p>We focus on practical, impactful programs that serve the nutritional and educational needs of orphans.</p>
+    <div class="services-container">
+      <div class="service-box">
+        <h3>Daily Meal Program</h3>
+        <p>Nutritious breakfast, lunch, and dinner provided to registered orphanages.</p>
+        <div class="frequency">Frequency: Daily</div>
+      </div>
+      <div class="service-box">
+        <h3>Food Donation Drives</h3>
+        <p>Collecting packaged and fresh food from individuals and local businesses.</p>
+        <div class="frequency">Frequency: Weekly</div>
+      </div>
+      <div class="service-box">
+        <h3>Nutrition Education</h3>
+        <p>Workshops teaching children and caregivers about healthy eating habits.</p>
+        <div class="frequency">Frequency: Monthly</div>
+      </div>
+      <div class="service-box">
+        <h3>Partnership with Farms</h3>
+        <p>Collaboration with local farms to source fresh fruits and vegetables.</p>
+        <div class="frequency">Frequency: Ongoing</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <h2>Contact & Donations</h2>
+    <p>You can support us through donations or volunteer work. Every bit helps.</p>
+    <p><strong>Email:</strong> <a href="mailto:help@feedthefuture.org">help@feedthefuture.org</a></p>
+    <p><strong>Phone:</strong> <a href="tel:+12345678901">+1 234 567 8901</a></p>
+    <p><strong>Bank Details:</strong> Account No: 123456789 | IFSC: ABCD0123456</p>
+  </div>
+</section>
+
+<footer>
+  &copy; 2025 Feed the Future | All rights reserved.
+</footer>
+
+<script>
+  // Highlight active nav link on scroll
+  const sections = document.querySelectorAll('header, section');
+  const navLinks = document.querySelectorAll('nav ul li a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 80;
+      if (pageYOffset >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+
+    // Navbar background and logo color on scroll
+    const nav = document.getElementById('navbar');
+    if(window.scrollY > 50){
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+</script>
+
+</body>
+</html>
